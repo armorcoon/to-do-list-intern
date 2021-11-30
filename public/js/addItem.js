@@ -1,30 +1,37 @@
 const activity = document.getElementById("activity");
 const description = document.getElementById("description");
-const date = document.getElementById("start")
+const date = document.getElementById("start");
 const addTaskButton = document.getElementById("add-task-btn");
 const saveTaskButton = document.getElementById("save-todo-btn");
 const listBox = document.getElementById("listBox");
 const saveInd = document.getElementById("saveIndex");
 
-
 // initialize array to store
 let todoArray = [];
 //add items
 addTaskButton.addEventListener("click", (e) => {
-  e.preventDefault();
-  let todo = localStorage.getItem("todo");
-  if (todo === null) {
-    todoArray = [];
-  } else {
-    todoArray = JSON.parse(todo);
+  if (activity.value == "") {
+    alert("please fill out the activity's information");
+  } 
+  else if(date.value == ""){
+    alert("please fill out the date");
   }
-  item = activity.value +":"+description.value+" "+date.value;
-  todoArray.push(item);
-  activity.value = "";
-  description.value = "";
-  date.value = "";
-  localStorage.setItem("todo", JSON.stringify(todoArray));
-  displayTodo();
+  else {
+    e.preventDefault();
+    let todo = localStorage.getItem("todo");
+    if (todo === null) {
+      todoArray = [];
+    } else {
+      todoArray = JSON.parse(todo);
+    }
+    item = activity.value + ":" + description.value + " " + date.value;
+    todoArray.push(item);
+    activity.value = "";
+    description.value = "";
+    date.value = "";
+    localStorage.setItem("todo", JSON.stringify(todoArray));
+    displayTodo();
+  }
 });
 
 //display
@@ -46,7 +53,7 @@ function displayTodo() {
   listBox.innerHTML = htmlCode;
 }
 
-//deleting 
+//deleting
 
 function deleteTodo(ind) {
   let todo = localStorage.getItem("todo");
@@ -54,22 +61,21 @@ function deleteTodo(ind) {
   todoArray.splice(ind, 1);
   localStorage.setItem("todo", JSON.stringify(todoArray));
   displayTodo();
- }
+}
 
-
- //edit
- function edit(ind) {
+//edit
+function edit(ind) {
   saveInd.value = ind;
   let todo = localStorage.getItem("todo");
   todoArray = JSON.parse(todo);
   activity.value = todoArray[ind];
   addTaskButton.style.display = "none";
   saveTaskButton.style.display = "block";
- }
+}
 
- //save task
+//save task
 
- saveTaskButton.addEventListener("click", () => {
+saveTaskButton.addEventListener("click", () => {
   let todo = localStorage.getItem("todo");
   todoArray = JSON.parse(todo);
   let id = saveInd.value;
@@ -79,5 +85,4 @@ function deleteTodo(ind) {
   activity.value = "";
   localStorage.setItem("todo", JSON.stringify(todoArray));
   displayTodo();
- });
-
+});
